@@ -28,7 +28,7 @@ describe('Pagination', () => {
 		});
 	});
 
-	describe('applyPagination', () => {
+	describe('applyPageSize', () => {
 		test('Default parameters', () => {
 			const result = pagination.applyPageSize();
 			expect(result.pageNumber).toBe(1);
@@ -109,7 +109,9 @@ describe('Pagination', () => {
 			expect(resultLookups[2][1].length).toBe(2);
 			expect(resultLookups[3][1].length).toBe(9);
 		});
+	});
 
+	describe('applyPageNumber', () => {
 		test('Reset page size', () => {
 			const result = pagination.applyPageNumber();
 			expect(result.pageNumber).toBe(1);
