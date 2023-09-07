@@ -1,5 +1,5 @@
 {
     "id": "slug",
     "read-only": true,
-    "static": "./src"
+    "static": "./"
 }

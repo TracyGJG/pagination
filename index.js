@@ -1,5 +1,5 @@
-import Columns from '../columns.json' assert { type: 'json' };
-import Pagination from '../pagination.js';
+import Columns from './src/columns.json' assert { type: 'json' };
+import Pagination from './src/pagination.js';
 
 (async () => {
 	const Distilleries = await getData();

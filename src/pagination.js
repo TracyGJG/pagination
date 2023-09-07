@@ -1,4 +1,4 @@
-import filterOperations from './filterOperations';
+import filterOperations from './filterOperations/index.js';
 
 export default function Pagination(
 	sourceData = [],
