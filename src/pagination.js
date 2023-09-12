@@ -8,31 +8,19 @@ export default function Pagination(
 		throw Error('No Column Specifification provided');
 
 	const rawData = structuredClone(sourceData);
-	const columnSpecifications = _columnSpecifications.map(colSpec => ({
-		...colSpec,
-		columnLens: propertyLens(colSpec),
-	}));
+	const columnSpecs = generateColumnPropertyLens(_columnSpecifications);
+
+	const searchableColumns = extractSearchableColumns(columnSpecs);
+	const lookupColumns = extractLookupColumns(columnSpecs);
+	let sortCriteria = extractSortableColumns(columnSpecs);
 
 	let searchTerm = '';
-	const searchableColumns = columnSpecifications.filter(
-		({ searchable, type }) => searchable && type === 'string'
-	);
-
 	let filterPredicates = [];
-	const lookupColumns = columnSpecifications.filter(({ lookup }) => lookup);
-	let reducedData;
-
-	let sortCriteria = columnSpecifications
-		.reduce(
-			(sortCri, colSpec) =>
-				colSpec.sort.order ? { ...sortCri, colSpec } : sortCri,
-			[]
-		)
-		.sort(arrangeSortOrder);
-	let organisedData;
-
 	let pageSize = 0;
 	let pageNumber = 1;
+
+	let reducedData;
+	let organisedData;
 	let pagedData;
 
 	reduceData();
@@ -49,29 +37,14 @@ export default function Pagination(
 		},
 		applyFilters(_filters = []) {
 			pageNumber = 1;
-			filterPredicates = structuredClone(_filters).map(
-				({ column, operation, values }) =>
-					obj =>
-						filterOperations[columnSpecifications[column].type][operation](
-							...values
-						)(columnSpecifications[column].columnLens(obj))
-			);
+			filterPredicates = generateFilterPredicates(_filters, columnSpecs);
 			reduceData();
 			organiseData();
 			return pageData();
 		},
 		applySorting(_sortOrders = []) {
 			pageNumber = 1;
-			sortCriteria = _sortOrders
-				.map(sortOrder => ({
-					...columnSpecifications[sortOrder.colIndex],
-					sort: {
-						order: sortOrder.order,
-						direction: sortOrder.direction,
-					},
-				}))
-				.sort(arrangeSortOrder);
-
+			sortCriteria = extractSortCriteria(_sortOrders, columnSpecs);
 			organiseData();
 			return pageData();
 		},
@@ -142,6 +115,55 @@ export default function Pagination(
 			lookups,
 		};
 	}
+}
+
+function extractLookupColumns(_columnSpecs) {
+	return _columnSpecs.filter(({ lookup }) => lookup);
+}
+
+function extractSearchableColumns(_columnSpecs) {
+	return _columnSpecs.filter(
+		({ searchable, type }) => searchable && type === 'string'
+	);
+}
+
+function extractSortableColumns(_columnSpecifications) {
+	return _columnSpecifications
+		.reduce(
+			(sortCri, colSpec) =>
+				colSpec.sort.order ? { ...sortCri, colSpec } : sortCri,
+			[]
+		)
+		.sort(arrangeSortOrder);
+}
+
+function generateColumnPropertyLens(_columnSpecifications) {
+	return _columnSpecifications.map(colSpec => ({
+		...colSpec,
+		columnLens: propertyLens(colSpec),
+	}));
+}
+
+function generateFilterPredicates(_filters, _columnSpecs) {
+	return structuredClone(_filters).map(
+		({ column, operation, values }) =>
+			obj =>
+				filterOperations[_columnSpecs[column].type][operation](...values)(
+					_columnSpecs[column].columnLens(obj)
+				)
+	);
+}
+
+function extractSortCriteria(_sortOrders, _columnSpecs) {
+	return _sortOrders
+		.map(sortOrder => ({
+			..._columnSpecs[sortOrder.colIndex],
+			sort: {
+				order: sortOrder.order,
+				direction: sortOrder.direction,
+			},
+		}))
+		.sort(arrangeSortOrder);
 }
 
 function cascadedSort(_sortCriteria) {
