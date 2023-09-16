@@ -2,29 +2,15 @@
   "name": "pagination",
   "version": "1.0.0",
   "description": "A collection of functions to support enhanced data pagination.",
-  "main": "index.html",
   "scripts": {
-    "start": "json-server db.json -c json-server.json",
     "coverage": "node --experimental-vm-modules ./node_modules/jest/bin/jest.js --coverage",
     "watch": "node --experimental-vm-modules ./node_modules/jest/bin/jest.js --watch",
     "test": "node --experimental-vm-modules ./node_modules/jest/bin/jest.js"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/TracyGJG/pagination.git"
-  },
-  "keywords": [
-    "pagination"
-  ],
   "author": "TGJ Gilmore",
   "license": "CC0-1.0",
   "type": "module",
-  "bugs": {
-    "url": "https://github.com/TracyGJG/pagination/issues"
-  },
-  "homepage": "https://github.com/TracyGJG/pagination#readme",
   "devDependencies": {
-    "jest": "^29.6.4",
-    "json-server": "^0.17.3"
+    "jest": "^29.6.4"
   }
 }

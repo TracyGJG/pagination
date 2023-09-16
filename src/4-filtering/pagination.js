@@ -8,8 +8,12 @@ export default function Pagination(
 		throw Error('No Column Specifification provided');
 
 	const rawData = structuredClone(sourceData);
-	const columnSpecs = generateColumnPropertyLens(_columnSpecifications);
 
+	let reducedData;
+	let organisedData;
+	let pagedData;
+
+	const columnSpecs = generateColumnPropertyLens(_columnSpecifications);
 	const searchableColumns = extractSearchableColumns(columnSpecs);
 	const lookupColumns = extractLookupColumns(columnSpecs);
 	let sortCriteria = extractSortableColumns(columnSpecs);
@@ -19,25 +23,21 @@ export default function Pagination(
 	let pageSize = 0;
 	let pageNumber = 1;
 
-	let reducedData;
-	let organisedData;
-	let pagedData;
-
 	reduceData();
 	organiseData();
 	pageData();
 
 	return {
-		applySearches(_searchTerm = '') {
+		applyFilters(_filters = []) {
 			pageNumber = 1;
-			searchTerm = _searchTerm.toLowerCase();
+			filterPredicates = generateFilterPredicates(_filters, columnSpecs);
 			reduceData();
 			organiseData();
 			return pageData();
 		},
-		applyFilters(_filters = []) {
+		applySearches(_searchTerm = '') {
 			pageNumber = 1;
-			filterPredicates = generateFilterPredicates(_filters, columnSpecs);
+			searchTerm = _searchTerm.toLowerCase();
 			reduceData();
 			organiseData();
 			return pageData();
@@ -48,13 +48,13 @@ export default function Pagination(
 			organiseData();
 			return pageData();
 		},
+		applyPageNumber(_pageNumber = 1) {
+			pageNumber = _pageNumber;
+			return pageData();
+		},
 		applyPageSize(_pageSize = 0) {
 			pageNumber = 1;
 			pageSize = _pageSize;
-			return pageData();
-		},
-		applyPageNumber(_pageNumber = 1) {
-			pageNumber = _pageNumber;
 			return pageData();
 		},
 	};
@@ -89,24 +89,7 @@ export default function Pagination(
 		}
 		pagedData = organisedData.slice(pageStart, page);
 
-		const lookups = lookupColumns.reduce(
-			(_lookups, lookupColumn) => ({
-				..._lookups,
-				[lookupColumn.property]: [
-					...new Set(
-						pagedData.map(obj =>
-							({
-								boolean: _ => `${_ === false}`,
-								date: _ => `${_.toISOString()}`,
-								number: _ => `${_}`,
-								string: _ => _,
-							}[lookupColumn.type](lookupColumn.columnLens(obj)))
-						)
-					),
-				].sort(),
-			}),
-			{}
-		);
+		const lookups = extractLookupValues(lookupColumns, pagedData);
 
 		return {
 			pageNumber: pageNumber,
@@ -115,6 +98,27 @@ export default function Pagination(
 			lookups,
 		};
 	}
+}
+
+function extractLookupValues(lookupColumns, pagedData) {
+	return lookupColumns.reduce(
+		(_lookups, lookupColumn) => ({
+			..._lookups,
+			[lookupColumn.property]: [
+				...new Set(
+					pagedData.map(obj =>
+						({
+							boolean: _ => `${_ === false}`,
+							date: _ => `${_.toISOString()}`,
+							number: _ => `${_}`,
+							string: _ => _,
+						}[lookupColumn.type](lookupColumn.columnLens(obj)))
+					)
+				),
+			].sort(),
+		}),
+		{}
+	);
 }
 
 function extractLookupColumns(_columnSpecs) {

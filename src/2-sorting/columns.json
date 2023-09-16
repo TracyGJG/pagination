@@ -1,0 +1,58 @@
+[
+    {
+        "property": "country",
+        "type": "string",
+        "sort": {
+            "order": 0,
+            "direction": 1
+        }
+    },
+    {
+        "property": "name",
+        "type": "string",
+        "sort": {
+            "order": 0,
+            "direction": 1
+        }
+    },
+    {
+        "property": "whiskybase_rating",
+        "type": "number",
+        "sort": {
+            "order": 0,
+            "direction": 1
+        }
+    },
+    {
+        "property": "whiskybase_votes",
+        "type": "number",
+        "sort": {
+            "order": 0,
+            "direction": 1
+        }
+    },
+    {
+        "property": "whiskybase_whiskies",
+        "type": "number",
+        "sort": {
+            "order": 0,
+            "direction": 1
+        }
+    },
+    {
+        "property": "rated",
+        "type": "boolean",
+        "sort": {
+            "order": 0,
+            "direction": 1
+        }
+    },
+    {
+        "property": "established",
+        "type": "date",
+        "sort": {
+            "order": 0,
+            "direction": 1
+        }
+    }
+]
