@@ -10,7 +10,8 @@ describe('Pagination', () => {
 				...entry,
 				rated: !!entry.whiskybase_rating,
 				established: new Date(1900 - entry.name.length, 0, 1),
-			}))
+			})),
+			[{}]
 		);
 	});
 

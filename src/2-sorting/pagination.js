@@ -3,19 +3,19 @@ export default function Pagination(
 	_columnSpecifications = []
 ) {
 	if (!_columnSpecifications.length)
-		throw Error('No Column Specifification provided');
-
-	const rawData = structuredClone(sourceData);
-
-	let reducedData;
-	let organisedData;
-	let pagedData;
+		throw Error('No Column Specifications provided');
 
 	const columnSpecs = generateColumnPropertyLens(_columnSpecifications);
 	let sortCriteria = extractSortableColumns(columnSpecs);
 
 	let pageSize = 0;
 	let pageNumber = 1;
+
+	const rawData = structuredClone(sourceData);
+
+	let reducedData;
+	let organisedData;
+	let pagedData;
 
 	reduceData();
 	organiseData();

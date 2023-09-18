@@ -5,7 +5,7 @@ export default function Pagination(
 	_columnSpecifications = []
 ) {
 	if (!_columnSpecifications.length)
-		throw Error('No Column Specifification provided');
+		throw Error('No Column Specifications provided');
 
 	const rawData = structuredClone(sourceData);
 

@@ -1,12 +1,18 @@
-export default function Pagination(sourceData = []) {
+export default function Pagination(
+	sourceData = [],
+	_columnSpecifications = []
+) {
+	if (!_columnSpecifications.length)
+		throw Error('No Column Specifications provided');
+
+	let pageSize = 0;
+	let pageNumber = 1;
+
 	const rawData = structuredClone(sourceData);
 
 	let reducedData;
 	let organisedData;
 	let pagedData;
-
-	let pageSize = 0;
-	let pageNumber = 1;
 
 	reduceData();
 	organiseData();
