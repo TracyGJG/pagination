@@ -1,0 +1,87 @@
+:root {
+    --header-height: 40px;
+    --footer-height: 40px;
+}
+
+header, footer, main, div {
+    box-sizing: border-box;
+    position: absolute;
+    inset-inline: 0;
+    background-color: #ddd;
+}
+
+header {
+    inset-block-start: 0;
+    height: var(--header-height);
+}
+
+main {
+    inset-block: var(--header-height) var(--footer-height);
+    overflow: auto;
+}
+
+footer {
+    inset-block-end: 0;
+    height: var(--footer-height);
+}
+
+i {
+    text-decoration: underline;
+    font-style: normal;
+}
+
+button {
+    width: 60px;
+    height: 30px;
+}
+
+select {
+    width: 80px;
+    height: 30px;    
+}
+
+#search {
+    position: absolute;
+    inset: 5px 5px auto auto;
+}
+
+table {
+    width: calc(100% - 40px);
+    margin: 10px 20px;
+    border-collapse: collapse;
+}
+
+td {
+    text-align: var(--justification, center);
+    background-color: #fff;
+}
+
+div[contenteditable] {
+    width: 300px;
+    height: 30px;    
+    position: absolute;
+    inset: 0 130px auto auto;
+    border: 1px solid #000;
+    background-color: #fff;
+    padding: 4px 8px;
+}
+
+footer > select {
+    position: absolute;
+    inset: auto auto 5px 5px;
+} 
+
+footer > div {
+    position: absolute;
+    inset: auto 0 5px auto;
+    width: 340px;
+}
+
+#pageControl[data-mode="0"] { visibility: hidden }
+#pageControl[data-mode="1"] [accesskey="F"],
+#pageControl[data-mode="1"] [accesskey="P"],
+#pageControl[data-mode="-1"] [accesskey="L"],
+#pageControl[data-mode="-1"] [accesskey="N"] {
+    opacity: 0.5;
+    pointer-events: none;
+}

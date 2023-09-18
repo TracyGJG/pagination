@@ -1,0 +1,37 @@
+[
+    {
+        "title": "Country",
+        "justification": "center",
+        "format": "string"
+    },
+    {
+        "title": "Name",
+        "justification": "left",
+        "format": "string"
+    },
+    {
+        "title": "Rating",
+        "justification": "right",
+        "format": "floorPercent"
+    },
+    {
+        "title": "Votes",
+        "justification": "right",
+        "format": "number"
+    },
+    {
+        "title": "Products",
+        "justification": "right",
+        "format": "number"
+    },
+    {
+        "title": "Rated",
+        "justification": "center",
+        "format": "yesNo"
+    },
+    {
+        "title": "Est.",
+        "justification": "center",
+        "format": "fourDigitYear"
+    }
+]

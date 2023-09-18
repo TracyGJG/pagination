@@ -13,10 +13,10 @@ export default function Pagination(
 	let organisedData;
 	let pagedData;
 
-	const columnSpecs = generateColumnPropertyLens(_columnSpecifications);
-	const searchableColumns = extractSearchableColumns(columnSpecs);
-	const lookupColumns = extractLookupColumns(columnSpecs);
-	let sortCriteria = extractSortableColumns(columnSpecs);
+	generateColumnPropertyLens(_columnSpecifications);
+	const searchableColumns = extractSearchableColumns(_columnSpecifications);
+	const lookupColumns = extractLookupColumns(_columnSpecifications);
+	let sortCriteria = extractSortableColumns(_columnSpecifications);
 
 	let searchTerm = '';
 	let filterPredicates = [];
@@ -30,7 +30,10 @@ export default function Pagination(
 	return {
 		applyFilters(_filters = []) {
 			pageNumber = 1;
-			filterPredicates = generateFilterPredicates(_filters, columnSpecs);
+			filterPredicates = generateFilterPredicates(
+				_filters,
+				_columnSpecifications
+			);
 			reduceData();
 			organiseData();
 			return pageData();
@@ -44,7 +47,7 @@ export default function Pagination(
 		},
 		applySorting(_sortOrders = []) {
 			pageNumber = 1;
-			sortCriteria = extractSortCriteria(_sortOrders, columnSpecs);
+			sortCriteria = extractSortCriteria(_sortOrders, _columnSpecifications);
 			organiseData();
 			return pageData();
 		},
@@ -142,10 +145,9 @@ function extractSortableColumns(_columnSpecifications) {
 }
 
 function generateColumnPropertyLens(_columnSpecifications) {
-	return _columnSpecifications.map(colSpec => ({
-		...colSpec,
-		columnLens: propertyLens(colSpec),
-	}));
+	_columnSpecifications.forEach(
+		colSpec => (colSpec.columnLens = propertyLens(colSpec))
+	);
 }
 
 function generateFilterPredicates(_filters, _columnSpecs) {

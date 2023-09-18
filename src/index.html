@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pagination</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <header>
+        <div id="search">
+            <div contenteditable="true"></div>
+            <button type="button" accesskey="S"><i>S</i>earch</button>
+            <button type="button" accesskey="C"><i>C</i>lear</button>
+        </div>
+    </header>
+    <main>
+        <table id="page" border="1">
+            <thead>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </main>
+    <footer>
+        <select id="pageSize">
+            <option value="0">Show all</option>
+            <option value="8">8 rows</option>
+            <option value="16">16 rows</option>
+            <option value="32">32 rows</option>
+        </select>
+        <div id="pageControl" data-mode="">
+            <button type="button" accesskey="F"><i>F</i>irst</button>
+            <button type="button" accesskey="P"><i>P</i>rev</button>
+            <select id="pageNum">
+            </select>
+            <button type="button" accesskey="N"><i>N</i>ext</button>
+            <button type="button" accesskey="L"><i>L</i>ast</button>
+        </div>
+    </footer>
+
+    <script type="module" src="script.js"></script>
+</body>
+
+</html>
