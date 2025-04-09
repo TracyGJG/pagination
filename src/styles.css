@@ -1,0 +1,32 @@
+table {
+  width: 100%;
+}
+thead tr {
+  height: 2.5em;
+  background-color: #ddd;
+
+  & > * {
+    padding-inline: 0.5em 0.375em;
+  }
+}
+tbody tr {
+  height: 1.75em;
+  background-color: #fff;
+
+  &:nth-child(even) {
+    background-color: #eee;
+  }
+
+  & > td {
+    padding-inline: 0.5em;
+  }
+}
+th {
+  text-align: left;
+}
+.--centre {
+  text-align: center;
+}
+.--right {
+  text-align: right;
+}

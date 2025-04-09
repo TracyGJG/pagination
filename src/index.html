@@ -1,47 +1,69 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>table</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <search-bar></search-bar>
+    <table>
+      <thead>
+        <tr>
+          <th>Id</th>
+          <th>
+            <data-sorter property="name" order="unsorted">Name</data-sorter>
+          </th>
+          <th>
+            <data-sorter property="family" order="unsorted">Family</data-sorter>
+          </th>
+          <th>
+            <data-sorter property="place_of_found" order="unsorted"
+              >Country</data-sorter
+            >
+          </th>
+          <th>
+            <data-sorter property="diet" order="unsorted">Diet</data-sorter>
+          </th>
+          <th>
+            <data-sorter property="wingspan_cm" order="unsorted"
+              >Windspan (cm)</data-sorter
+            >
+          </th>
+          <th>
+            <data-sorter property="weight_kg" order="unsorted"
+              >Weight (kg)</data-sorter
+            >
+          </th>
+        </tr>
+        <tr>
+          <td>Id</td>
+          <td><data-filter property="name">Name</data-filter></td>
+          <td>
+            <data-filter property="family" isNullable="true"
+              >Family</data-filter
+            >
+          </td>
+          <td>
+            <data-filter property="place_of_found" isNullable="false"
+              >Country Country Country</data-filter
+            >
+          </td>
+          <td>&nbsp;</td>
+          <td>&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+    <paginate-data
+      id="paginator"
+      includeAll="true"
+      pageSizes="5,10, 20, 30 "
+    ></paginate-data>
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pagination</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-
-<body>
-    <header>
-        <div id="search">
-            <div contenteditable="true"></div>
-            <button type="button" accesskey="S"><i>S</i>earch</button>
-            <button type="button" accesskey="C"><i>C</i>lear</button>
-        </div>
-    </header>
-    <main>
-        <table id="page" border="1">
-            <thead>
-            </thead>
-            <tbody>
-            </tbody>
-        </table>
-    </main>
-    <footer>
-        <select id="pageSize">
-            <option value="0">Show all</option>
-            <option value="8">8 rows</option>
-            <option value="16">16 rows</option>
-            <option value="32">32 rows</option>
-        </select>
-        <div id="pageControl" data-mode="">
-            <button type="button" accesskey="F"><i>F</i>irst</button>
-            <button type="button" accesskey="P"><i>P</i>rev</button>
-            <select id="pageNum">
-            </select>
-            <button type="button" accesskey="N"><i>N</i>ext</button>
-            <button type="button" accesskey="L"><i>L</i>ast</button>
-        </div>
-    </footer>
-
-    <script type="module" src="script.js"></script>
-</body>
-
+    <script type="module" src="./components/index.js"></script>
+    <script type="module" src="./scripts.js"></script>
+  </body>
 </html>
