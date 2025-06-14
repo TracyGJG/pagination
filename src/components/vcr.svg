@@ -39,6 +39,9 @@
     <polygon points="20,15 80,15 55,45 55,85 45,75 45,45"/>
   </g>
   <g id="filter-off">
+    <polygon points="20,15 80,15 55,45 55,85 45,75 45,45" fill="transparent" stroke="#000" stroke-width="4"/>
+  </g>
+  <g id="filter-__">
     <polygon points="20,15 80,15 55,40 55,45 50,48 45,45 45,40" />
     <polygon points="20,35 25,35 80,70 80,75 75,75 20,40"/>
     <polygon points="80,35 75,35 20,70 20,75 25,75 80,40"/>

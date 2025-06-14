@@ -50,14 +50,14 @@ class dataSorter extends HTMLElement {
     this.#level = +this.getAttribute("level") ?? 0;
   }
 
-  set level(_level) {
-    this.#level = _level;
-    this.setAttribute("level", this.#level);
-  }
-
   set order(_order) {
     this.#order = _order;
     this.setAttribute("order", this.#order);
+  }
+
+  set level(_level) {
+    this.#level = _level;
+    this.setAttribute("level", this.#level);
   }
 
   attributeChangedCallback(attribute, _oldValue, newValue) {
@@ -65,7 +65,7 @@ class dataSorter extends HTMLElement {
       if ("order" === attribute) {
         this.#order = newValue;
         this.#domButton.dataset.order = this.#order;
-        this.#domImage.src = `../src/components/vcr.svg#${this.#order}`;
+        this.#domImage.src = `./components/vcr.svg#${this.#order}`;
       }
       if ("level" === attribute) {
         this.#level = +newValue;
@@ -82,7 +82,7 @@ class dataSorter extends HTMLElement {
           <slot></slot>
         </span>
         <button data-level="${this.#level}" data-order="${this.#order}">
-          <img src="../src/components/vcr.svg#${this.#order}" />
+          <img src="./components/vcr.svg#${this.#order}" />
         </button>
       </article>
     `;

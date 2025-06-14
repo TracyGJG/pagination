@@ -42,13 +42,13 @@ class paginateVcr extends HTMLElement {
     const template = document.createElement("template");
     template.innerHTML = /* html */ `${paginateVcr.cssStyles}
       <article class="vcr">
-        <button id="btnFirst"><img src="../src/components/vcr.svg#first" /></button>
-        <button id="btnPrev"><img src="../src/components/vcr.svg#prev" /></button>
+        <button id="btnFirst"><img src="./components/vcr.svg#first" /></button>
+        <button id="btnPrev"><img src="./components/vcr.svg#prev" /></button>
         <div>Page<span id="spnPage">${this.#page}</span>of<span id="spnPages">${
       this.#pages
     }</span></div>
-        <button id="btnNext"><img src="../src/components/vcr.svg#next" /></button>
-        <button id="btnLast"><img src="../src/components/vcr.svg#last" /></button>
+        <button id="btnNext"><img src="./components/vcr.svg#next" /></button>
+        <button id="btnLast"><img src="./components/vcr.svg#last" /></button>
       </article>
     `;
 

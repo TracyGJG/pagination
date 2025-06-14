@@ -4,15 +4,14 @@ const FILTERS = {
 };
 
 class dataFilter extends HTMLElement {
-  #state = "filter-on";
+  #state = "filter-off";
   #column;
   #isNullable;
   #values = [];
   #isNull;
-  #domButton;
   #domImage;
 
-  static observedAttributes = ["values", "isNull"];
+  static observedAttributes = ["mode"];
 
   static cssStyles = /* css */ `
     <style>
@@ -43,15 +42,16 @@ class dataFilter extends HTMLElement {
       this.getAttribute("isNullable")?.toLowerCase() !== "true";
   }
 
+  set mode(_mode) {
+    this.#state = `filter-${_mode}`;
+    this.setAttribute("mode", _mode);
+  }
+
   attributeChangedCallback(attribute, _oldValue, newValue) {
-    if (this.#domImage) {
-      if ("values" === attribute) {
-        this.#values = newValue.split(/,\s*/);
-        this.#state = this.#state === "filter-on" ? "filter-off" : "filter-on";
-        this.#domImage.src = `../src/components/vcr.svg#${this.#state}`;
-      }
-      if ("isNull" === attribute) {
-        this.#isNull = newValue.toLowerCase !== "true";
+    if (this.shadowRoot) {
+      if ("mode" === attribute) {
+        this.#state = `filter-${newValue}`;
+        this.#domImage.src = `./components/vcr.svg#${this.#state}`;
       }
     }
   }
@@ -60,11 +60,11 @@ class dataFilter extends HTMLElement {
     const template = document.createElement("template");
     template.innerHTML = /* html */ `${dataFilter.cssStyles}
       <article class="data-filter">
-      <div>
+        <div>
           <slot></slot>
         </div>
         <button>
-          <img src="../src/components/vcr.svg#${this.#state}" />
+          <img src="./components/vcr.svg#${this.#state}" />
         </button>
       </article>
     `;
@@ -72,12 +72,10 @@ class dataFilter extends HTMLElement {
     const shadowRoot = this.attachShadow({ mode: "open" });
     shadowRoot.appendChild(template.content.cloneNode(true));
 
-    /* this.#domButton = this.shadowRoot.querySelector("button"); */
     this.#domImage = this.shadowRoot.querySelector("img");
 
     this.shadowRoot.querySelector("button").addEventListener("click", (evt) => {
-      this.#state = FILTERS[this.#state];
-      this.#domImage.src = `../src/components/vcr.svg#${this.#state}`;
+      this.mode = FILTERS[this.#state].slice(7);
       this.dispatchEvent(
         new CustomEvent("filterChanged", {
           detail: {

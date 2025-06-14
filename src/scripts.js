@@ -1,6 +1,8 @@
 import BirdData from "../data/bird-data.json" with { type: "json" };
-import {extractPage, renderTable} from "./utils.js";
+
 import Paginate from "./pagination.js";
+
+import {extractPage, renderTable} from "./utils.js";
 
 const defaultCellSpec = (propName, cssClasses = '') => (obj) => `<td class="${cssClasses}">${obj[propName] ?? '-'}</td>`;
 const speciesCellSpec = (bird) => `<td title="Species: ${bird.species}">${bird.family}</td>`;
@@ -15,23 +17,40 @@ const CELL_SPECS = [
   defaultCellSpec('weight_kg', '--right'),
 ];
 
+
 const RENDER_TABLE = renderTable("table", CELL_SPECS);
 const EXTRACT_PAGE = extractPage(BirdData);
 
 RENDER_TABLE(EXTRACT_PAGE().page);
 
-const PAGINATE = Paginate();
+const PAGINATE = Paginate(BirdData, CELL_SPECS);
 
-const paginator = document.querySelector('#paginator');
-paginator.pages = 3;
 
-paginator.addEventListener('paginatedSizeChange', ({detail: pageSize}) => {
-  PAGINATE.updatePageSize(pageSize);
+const searchBar = document.querySelector('search-bar');
+
+searchBar.addEventListener('clearSorting', () => {
+  PAGINATE.clearSorting();
+  document.querySelectorAll("table data-sorter").forEach((_sorter) => {
+    _sorter.setAttribute("order", "unsorted");
+    _sorter.setAttribute("level", 0);
+  });
 });
 
-paginator.addEventListener('paginatedPageChange', ({detail: pageNum}) => {
-  PAGINATE.updatePage(pageNum);
+searchBar.addEventListener('clearFilters', () => {
+  PAGINATE.clearFilters();
+  document.querySelectorAll("table data-filter").forEach((_filter) => {
+    _filter.setAttribute("mode", 'off');
+  });
 });
+
+searchBar.addEventListener('applySearch', ({detail}) => {
+  const {
+    searchTerm,
+    regExp,
+  } = detail;
+  PAGINATE.updateSearch(searchTerm, regExp);
+});
+
 
 document.querySelectorAll("table data-sorter").forEach(sorter => 
   sorter.addEventListener('sortOrderChanged', ({detail}) => {
@@ -58,3 +77,14 @@ document.querySelectorAll("table data-filter").forEach(sorter =>
     PAGINATE.updateFilter(column, values, isNull);
   })
 );
+
+
+const paginator = document.querySelector('#paginator');
+
+paginator.addEventListener('paginatedSizeChange', ({detail: pageSize}) => {
+  PAGINATE.updatePageSize(pageSize);
+});
+
+paginator.addEventListener('paginatedPageChange', ({detail: pageNum}) => {
+  PAGINATE.updatePage(pageNum);
+});

@@ -1,10 +1,4 @@
 class searchBar extends HTMLElement {
-  // #pageSize = 1;
-  // #domPageSizeSelector;
-  // #pageSizes = [0];
-  // #domPageSizes = [];
-  #domClrSorting;
-  #domClrFilters;
   #domSearchInput;
   #domSearchRegExp;
 
@@ -75,10 +69,31 @@ class searchBar extends HTMLElement {
 
     const shadowRoot = this.attachShadow({ mode: "open" });
     shadowRoot.appendChild(template.content.cloneNode(true));
-    this.#domClrSorting = this.shadowRoot.querySelector("#btnClrSorting");
-    this.#domClrFilters = this.shadowRoot.querySelector("#btnClrFilters");
+
     this.#domSearchInput = this.shadowRoot.querySelector('[type="search"]');
     this.#domSearchRegExp = this.shadowRoot.querySelector('[type="checkbox"]');
+    this.shadowRoot
+      .querySelector("#btnClrSorting")
+      .addEventListener("click", (evt) => {
+        this.dispatchEvent(new CustomEvent("clearSorting"));
+      });
+    this.shadowRoot
+      .querySelector("#btnClrFilters")
+      .addEventListener("click", (evt) => {
+        this.dispatchEvent(new CustomEvent("clearFilters"));
+      });
+    this.shadowRoot
+      .querySelector("#btnSearch")
+      .addEventListener("click", (evt) => {
+        this.dispatchEvent(
+          new CustomEvent("applySearch", {
+            detail: {
+              searchTerm: this.#domSearchInput.value,
+              regExp: this.#domSearchRegExp.checked,
+            },
+          })
+        );
+      });
   }
 }
 

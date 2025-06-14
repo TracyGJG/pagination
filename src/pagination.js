@@ -17,12 +17,21 @@ export default function Paginate(dataset, colSpecs = {}, initPageSize = 5) {
     sorting: {},
     filters: {},
     searchTerm: "",
+    regExp: false,
   };
 
   return {
     refreshData(_data) {
       properties.data = _data;
       properties.page = 1;
+      return extractPage();
+    },
+    clearSorting() {
+      properties.sorting = {};
+      return extractPage();
+    },
+    clearFilters() {
+      properties.filters = {};
       return extractPage();
     },
     updatePage(_page) {
@@ -56,8 +65,9 @@ export default function Paginate(dataset, colSpecs = {}, initPageSize = 5) {
       }
       return extractPage();
     },
-    updateSearch(_searchTerm) {
-      properties.searchTerm = _searchTerm.toLowercase();
+    updateSearch(_searchTerm, _regExp) {
+      properties.searchTerm = _searchTerm.toLowerCase();
+      properties.regExp = _regExp;
       return extractPage();
     },
   };
@@ -67,6 +77,7 @@ export default function Paginate(dataset, colSpecs = {}, initPageSize = 5) {
   Page=${properties.page},
   PageSize=${properties.size},
   SearchTerm=${properties.searchTerm},
+  RegExp=${properties.regExp},
   Sorting=${JSON.stringify(properties.sorting)},
   Filters=${JSON.stringify(properties.filters)}`);
 
